@@ -14,8 +14,8 @@ const Login = () => {
 
   const form = useForm({
     initialValues: {
-      username: 'admin',
-      password: 'admin',
+      username: '',
+      password: '',
     },
   });
 
