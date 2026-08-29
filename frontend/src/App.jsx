@@ -1,15 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { MantineProvider, Container, Title } from '@mantine/core';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import Login from './pages/Login.jsx';
 import NotFound from './pages/NotFound.jsx';
+import Chat from './pages/Chat.jsx';
 import useAuthStore from './store/auth.js';
 
-const Home = () => (
-  <Container size="xs" mt={50}>
-    <Title order={2} align="center" c="dark">Hexlet Chat</Title>
-  </Container>
-);
+const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children }) => {
   const token = useAuthStore((state) => state.token);
@@ -19,20 +17,22 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => (
   <MantineProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={(
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          )}
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={(
+              <ProtectedRoute>
+                <Chat />
+              </ProtectedRoute>
+            )}
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   </MantineProvider>
 );
 
