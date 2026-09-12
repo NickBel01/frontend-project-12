@@ -3,7 +3,9 @@ import {
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MantineProvider } from '@mantine/core';
+import { I18nextProvider } from 'react-i18next';
 import '@mantine/core/styles.css';
+import i18n from './i18n.js';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import NotFound from './pages/NotFound.jsx';
@@ -22,22 +24,24 @@ const ProtectedRoute = ({ children }) => {
 const App = () => (
   <MantineProvider>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={(
-              <ProtectedRoute>
-                <Chat />
-              </ProtectedRoute>
-            )}
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <I18nextProvider i18n={i18n}>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route
+              path="/"
+              element={(
+                <ProtectedRoute>
+                  <Chat />
+                </ProtectedRoute>
+              )}
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </I18nextProvider>
     </QueryClientProvider>
   </MantineProvider>
 );

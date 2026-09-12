@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { fetchMessages, sendMessage } from '../api.js';
 import useAuthStore from '../store/auth.js';
 
 const Messages = ({ channelId }) => {
+  const { t } = useTranslation();
   const [text, setText] = useState('');
   const [sending, setSending] = useState(false);
   const username = useAuthStore((state) => state.username) || 'admin';
@@ -32,14 +34,14 @@ const Messages = ({ channelId }) => {
     }
   };
 
-  if (isLoading) return <div>Загрузка сообщений...</div>;
+  if (isLoading) return <div>{t('chat.loadingMessages')}</div>;
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <div style={{ flex: 1, padding: 20, overflowY: 'auto' }}>
-        <h3>Сообщения</h3>
+        <h3>{t('chat.messages')}</h3>
         {messages.map((message) => (
-          <div key={message.id} style={{ marginBottom: 10 }}>
+          <div key={message.id} style={{ marginBottom: 10, wordBreak: 'break-word' }}>
             <strong>{message.username}:</strong>
             {' '}
             {message.body}
@@ -51,7 +53,7 @@ const Messages = ({ channelId }) => {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Введите сообщение..."
+          placeholder={t('chat.messagePlaceholder')}
           disabled={sending}
           style={{ width: '100%', padding: 10, fontSize: 16 }}
         />

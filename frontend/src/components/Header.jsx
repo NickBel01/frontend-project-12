@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Group, Anchor, Button } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import useAuthStore from '../store/auth.js';
 
 const Header = () => {
+  const { t } = useTranslation();
   const token = useAuthStore((state) => state.token);
   const removeAuth = useAuthStore((state) => state.removeAuth);
   const navigate = useNavigate();
@@ -16,8 +18,8 @@ const Header = () => {
     <div style={{ borderBottom: '1px solid #ddd', padding: '10px 0' }}>
       <Container size="lg">
         <Group justify="space-between">
-          <Anchor component={Link} to="/" fw={700} c="dark">Hexlet Chat</Anchor>
-          {token && <Button variant="subtle" onClick={handleLogout}>Выйти</Button>}
+          <Anchor component={Link} to="/" fw={700} c="dark">{t('header.brand')}</Anchor>
+          {token && <Button variant="subtle" onClick={handleLogout}>{t('header.logout')}</Button>}
         </Group>
       </Container>
     </div>

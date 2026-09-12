@@ -1,10 +1,12 @@
 import { Modal, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { renameChannel } from '../../api.js';
 import useUIStore from '../../store/ui.js';
 
 const RenameChannelModal = () => {
+  const { t } = useTranslation();
   const { channelId } = useUIStore((state) => state.modal);
   const closeModal = useUIStore((state) => state.closeModal);
   const queryClient = useQueryClient();
@@ -13,7 +15,7 @@ const RenameChannelModal = () => {
     initialValues: { name: '' },
     validate: {
       name: (value) => {
-        if (value.length < 3 || value.length > 20) return 'От 3 до 20 символов';
+        if (value.length < 3 || value.length > 20) return t('modals.validation.length');
         return null;
       },
     },
@@ -28,14 +30,14 @@ const RenameChannelModal = () => {
   });
 
   return (
-    <Modal opened onClose={closeModal} title="Переименовать канал">
+    <Modal opened onClose={closeModal} title={t('modals.renameChannel')}>
       <form onSubmit={form.onSubmit((values) => mutation.mutate(values.name))}>
         <TextInput
-          label="Новое имя"
+          label={t('modals.newName')}
           data-autofocus
           {...form.getInputProps('name')}
         />
-        <Button type="submit" mt="md" loading={mutation.isPending}>Отправить</Button>
+        <Button type="submit" mt="md" loading={mutation.isPending}>{t('modals.submit')}</Button>
       </form>
     </Modal>
   );

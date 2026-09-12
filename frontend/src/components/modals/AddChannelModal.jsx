@@ -1,10 +1,12 @@
 import { Modal, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { createChannel } from '../../api.js';
 import useUIStore from '../../store/ui.js';
 
 const AddChannelModal = () => {
+  const { t } = useTranslation();
   const closeModal = useUIStore((state) => state.closeModal);
   const setCurrentChannelId = useUIStore((state) => state.setCurrentChannelId);
   const queryClient = useQueryClient();
@@ -13,7 +15,7 @@ const AddChannelModal = () => {
     initialValues: { name: '' },
     validate: {
       name: (value) => {
-        if (value.length < 3 || value.length > 20) return 'От 3 до 20 символов';
+        if (value.length < 3 || value.length > 20) return t('modals.validation.length');
         return null;
       },
     },
@@ -30,14 +32,14 @@ const AddChannelModal = () => {
   });
 
   return (
-    <Modal opened onClose={closeModal} title="Добавить канал">
+    <Modal opened onClose={closeModal} title={t('modals.addChannel')}>
       <form onSubmit={form.onSubmit((values) => mutation.mutate(values.name))}>
         <TextInput
-          label="Имя канала"
+          label={t('modals.channelName')}
           data-autofocus
           {...form.getInputProps('name')}
         />
-        <Button type="submit" mt="md" loading={mutation.isPending}>Отправить</Button>
+        <Button type="submit" mt="md" loading={mutation.isPending}>{t('modals.submit')}</Button>
       </form>
     </Modal>
   );

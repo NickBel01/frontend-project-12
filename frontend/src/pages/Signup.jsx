@@ -5,9 +5,11 @@ import {
   TextInput, PasswordInput, Button, Container, Title, Box, Alert, Anchor,
 } from '@mantine/core';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import useAuthStore from '../store/auth.js';
 
 const Signup = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
   const [error, setError] = useState(null);
@@ -20,17 +22,17 @@ const Signup = () => {
     },
     validate: {
       username: (value) => {
-        if (!value) return 'Обязательное поле';
-        if (value.length < 3 || value.length > 20) return 'От 3 до 20 символов';
+        if (!value) return t('modals.validation.required');
+        if (value.length < 3 || value.length > 20) return t('modals.validation.length');
         return null;
       },
       password: (value) => {
-        if (!value) return 'Обязательное поле';
-        if (value.length < 6) return 'Не менее 6 символов';
+        if (!value) return t('modals.validation.required');
+        if (value.length < 6) return t('modals.validation.minPassword');
         return null;
       },
       confirmPassword: (value, values) => (
-        value !== values.password ? 'Пароли должны совпадать' : null
+        value !== values.password ? t('modals.validation.match') : null
       ),
     },
   });
@@ -45,41 +47,43 @@ const Signup = () => {
       navigate('/');
     } catch (err) {
       if (err.response?.status === 409) {
-        setError('Такой пользователь уже существует');
+        setError(t('signup.error'));
       } else {
-        setError('Ошибка регистрации');
+        setError(t('signup.errorGeneric'));
       }
     }
   };
 
   return (
     <Container size="xs" mt={50} style={{ minHeight: '400px' }}>
-      <Title order={2} align="center" mb="md" c="dark">Регистрация</Title>
+      <Title order={2} align="center" mb="md" c="dark">{t('signup.title')}</Title>
       {error && <Alert color="red" mb="md">{error}</Alert>}
       <Box component="form" onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
-          label="Имя пользователя"
+          label={t('signup.username')}
           placeholder="username"
           {...form.getInputProps('username')}
         />
         <PasswordInput
-          label="Пароль"
+          label={t('signup.password')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('password')}
         />
         <PasswordInput
-          label="Подтверждение пароля"
+          label={t('signup.confirmPassword')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('confirmPassword')}
         />
         <Button type="submit" fullWidth mt="md">
-          Зарегистрироваться
+          {t('signup.submit')}
         </Button>
       </Box>
       <Anchor component={Link} to="/login" mt="md" style={{ display: 'block', textAlign: 'center' }}>
-        Уже есть аккаунт? Войти
+        {t('signup.hasAccount')}
+        {' '}
+        {t('signup.login')}
       </Anchor>
     </Container>
   );

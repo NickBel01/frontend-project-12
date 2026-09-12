@@ -5,9 +5,11 @@ import {
   TextInput, PasswordInput, Button, Container, Title, Box, Alert, Anchor,
 } from '@mantine/core';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import useAuthStore from '../store/auth.js';
 
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
   const [error, setError] = useState(null);
@@ -25,33 +27,35 @@ const Login = () => {
       setAuth(response.data.token, response.data.username);
       navigate('/');
     } catch (err) {
-      setError('Неверные имя пользователя или пароль');
+      setError(t('login.error'));
     }
   };
 
   return (
     <Container size="xs" mt={50} style={{ minHeight: '400px' }}>
-      <Title order={2} align="center" mb="md" c="dark">Войти</Title>
+      <Title order={2} align="center" mb="md" c="dark">{t('login.title')}</Title>
       {error && <Alert color="red" mb="md">{error}</Alert>}
       <Box component="form" onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
-          label="Имя пользователя"
+          label={t('login.username')}
           placeholder="username"
           {...form.getInputProps('username')}
           required
         />
         <PasswordInput
-          label="Пароль"
+          label={t('login.password')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('password')}
           required
         />
         <Button type="submit" fullWidth mt="md">
-          Войти
+          {t('login.submit')}
         </Button>
         <Anchor component={Link} to="/signup" mt="md" style={{ display: 'block', textAlign: 'center' }}>
-          Нет аккаунта? Зарегистрироваться
+          {t('login.noAccount')}
+          {' '}
+          {t('login.signup')}
         </Anchor>
       </Box>
     </Container>
