@@ -1,3 +1,8 @@
 import runApp from '../frontend/src/main.jsx';
 
-export default runApp;
+export default (socket) => {
+  if (socket) {
+    window.__testSocket = socket;
+  }
+  runApp();
+};

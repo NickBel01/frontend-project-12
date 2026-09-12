@@ -4,13 +4,9 @@ import './index.css';
 import App from './App.jsx';
 import { initSentry } from './sentry.js';
 
-export const runApp = (element) => {
-  console.log('runApp arg:', element, 'typeof:', typeof element, 'isElement:', element instanceof Element);
+export const runApp = () => {
   initSentry();
-
-  const container = element || document.getElementById('root');
-  console.log('container:', container);
-
+  const container = document.getElementById('root');
   createRoot(container).render(
     <StrictMode>
       <App />
