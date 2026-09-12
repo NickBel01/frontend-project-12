@@ -1,3 +1,3 @@
-import init from '../../src/init.jsx';
+import init from './init.jsx';
 
 init();
