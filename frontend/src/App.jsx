@@ -1,10 +1,14 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter, Routes, Route, Navigate,
+} from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import Login from './pages/Login.jsx';
+import Signup from './pages/Signup.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Chat from './pages/Chat.jsx';
+import Header from './components/Header.jsx';
 import useAuthStore from './store/auth.js';
 
 const queryClient = new QueryClient();
@@ -19,6 +23,7 @@ const App = () => (
   <MantineProvider>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route
             path="/"
@@ -29,6 +34,7 @@ const App = () => (
             )}
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

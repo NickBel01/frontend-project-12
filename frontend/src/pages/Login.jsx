@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
 import {
-  TextInput, PasswordInput, Button, Container, Title, Box, Alert,
+  TextInput, PasswordInput, Button, Container, Title, Box, Alert, Anchor,
 } from '@mantine/core';
 import { useState } from 'react';
 import useAuthStore from '../store/auth.js';
@@ -50,6 +50,9 @@ const Login = () => {
         <Button type="submit" fullWidth mt="md">
           Войти
         </Button>
+        <Anchor component={Link} to="/signup" mt="md" style={{ display: 'block', textAlign: 'center' }}>
+          Нет аккаунта? Зарегистрироваться
+        </Anchor>
       </Box>
     </Container>
   );
