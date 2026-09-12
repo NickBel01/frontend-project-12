@@ -9,7 +9,7 @@ import useAuthStore from '../store/auth.js';
 
 const Login = () => {
   const navigate = useNavigate();
-  const setToken = useAuthStore((state) => state.setToken);
+  const setAuth = useAuthStore((state) => state.setAuth);
   const [error, setError] = useState(null);
 
   const form = useForm({
@@ -22,7 +22,7 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       const response = await axios.post('/api/v1/login', values);
-      setToken(response.data.token);
+      setAuth(response.data.token, response.data.username);
       navigate('/');
     } catch (err) {
       setError('Неверные имя пользователя или пароль');

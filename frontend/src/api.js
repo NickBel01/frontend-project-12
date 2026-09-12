@@ -14,6 +14,7 @@ api.interceptors.request.use((config) => {
 });
 
 export const fetchChannels = () => api.get('/channels').then((r) => r.data);
-export const fetchMessages = (channelId) => api.get(`/channels/${channelId}/messages`).then((r) => r.data);
+export const fetchMessages = () => api.get('/messages').then((r) => r.data);
+export const sendMessage = (body, channelId, username) => api.post('/messages', { body, channelId, username }).then((r) => r.data);
 
 export default api;
