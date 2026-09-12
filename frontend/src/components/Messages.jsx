@@ -55,6 +55,7 @@ const Messages = ({ channelId }) => {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={t('chat.messagePlaceholder')}
+          aria-label="Новое сообщение"
           disabled={sending}
           style={{ width: '100%', padding: 10, fontSize: 16 }}
         />
