@@ -40,21 +40,17 @@ const Login = () => {
           label={t('login.username')}
           placeholder="username"
           {...form.getInputProps('username')}
-          required
         />
         <PasswordInput
           label={t('login.password')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('password')}
-          required
         />
         <Button type="submit" fullWidth mt="md">
           {t('login.submit')}
         </Button>
         <Anchor component={Link} to="/signup" mt="md" style={{ display: 'block', textAlign: 'center' }}>
-          {t('login.noAccount')}
-          {' '}
           {t('login.signup')}
         </Anchor>
       </Box>
