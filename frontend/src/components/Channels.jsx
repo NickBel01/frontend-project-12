@@ -28,18 +28,28 @@ const Channels = ({ channels }) => {
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: 10,
-              cursor: 'pointer',
               background: currentChannelId === channel.id ? '#e0e0e0' : 'transparent',
               borderRadius: 5,
               marginBottom: 5,
             }}
           >
-            <span
+            <button
+              type="button"
               onClick={() => setCurrentChannelId(channel.id)}
-              style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}
+              style={{
+                flex: 1,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                textAlign: 'left',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                font: 'inherit',
+              }}
             >
               # {channel.name}
-            </span>
+            </button>
             {channel.removable && (
               <Menu>
                 <Menu.Target>
