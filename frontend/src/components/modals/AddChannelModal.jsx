@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
 import { createChannel } from '../../api.js';
 import useUIStore from '../../store/ui.js';
+import { clean } from '../../utils/profanity.js';
 
 const AddChannelModal = () => {
   const { t } = useTranslation();
@@ -35,7 +36,7 @@ const AddChannelModal = () => {
 
   return (
     <Modal opened onClose={closeModal} title={t('modals.addChannel')}>
-      <form onSubmit={form.onSubmit((values) => mutation.mutate(values.name))}>
+      <form onSubmit={form.onSubmit((values) => mutation.mutate(clean(values.name)))}>
         <TextInput
           label={t('modals.channelName')}
           data-autofocus

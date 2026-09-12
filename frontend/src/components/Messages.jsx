@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { fetchMessages, sendMessage } from '../api.js';
 import useAuthStore from '../store/auth.js';
+import { clean } from '../utils/profanity.js';
 
 const Messages = ({ channelId }) => {
   const { t } = useTranslation();
@@ -25,7 +26,7 @@ const Messages = ({ channelId }) => {
 
     setSending(true);
     try {
-      await sendMessage(text, channelId, username);
+      await sendMessage(clean(text), channelId, username);
       setText('');
     } catch (err) {
       console.error('Ошибка отправки', err);
