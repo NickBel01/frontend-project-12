@@ -15,6 +15,11 @@ api.interceptors.request.use((config) => {
 
 export const fetchChannels = () => api.get('/channels').then((r) => r.data);
 export const fetchMessages = () => api.get('/messages').then((r) => r.data);
+
+export const createChannel = (name) => api.post('/channels', { name }).then((r) => r.data);
+export const renameChannel = (id, name) => api.patch(`/channels/${id}`, { name }).then((r) => r.data);
+export const removeChannel = (id) => api.delete(`/channels/${id}`).then((r) => r.data);
+
 export const sendMessage = (body, channelId, username) => api.post('/messages', { body, channelId, username }).then((r) => r.data);
 
 export default api;

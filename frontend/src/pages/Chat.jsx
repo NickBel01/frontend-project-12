@@ -5,6 +5,7 @@ import socket from '../socket.js';
 import useUIStore from '../store/ui.js';
 import Channels from '../components/Channels.jsx';
 import Messages from '../components/Messages.jsx';
+import Modals from '../components/modals/index.jsx';
 
 const Chat = () => {
   const currentChannelId = useUIStore((state) => state.currentChannelId);
@@ -31,11 +32,29 @@ const Chat = () => {
       ));
     });
 
+    socket.on('newChannel', () => {
+      queryClient.invalidateQueries({ queryKey: ['channels'] });
+    });
+
+    socket.on('removeChannel', (payload) => {
+      queryClient.invalidateQueries({ queryKey: ['channels'] });
+      if (currentChannelId === payload.id) {
+        setCurrentChannelId(channels?.[0]?.id || null);
+      }
+    });
+
+    socket.on('renameChannel', () => {
+      queryClient.invalidateQueries({ queryKey: ['channels'] });
+    });
+
     return () => {
       socket.off('newMessage');
+      socket.off('newChannel');
+      socket.off('removeChannel');
+      socket.off('renameChannel');
       socket.disconnect();
     };
-  }, [queryClient]);
+  }, [queryClient, currentChannelId, channels, setCurrentChannelId]);
 
   if (isLoading) return <div>Загрузка...</div>;
 
@@ -49,6 +68,7 @@ const Chat = () => {
           Выберите канал
         </div>
       )}
+      <Modals />
     </div>
   );
 };

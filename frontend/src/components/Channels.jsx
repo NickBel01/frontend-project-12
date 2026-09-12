@@ -1,21 +1,28 @@
+import { Menu, Button, ActionIcon } from '@mantine/core';
 import useUIStore from '../store/ui.js';
 
 const Channels = ({ channels }) => {
   const setCurrentChannelId = useUIStore((state) => state.setCurrentChannelId);
   const currentChannelId = useUIStore((state) => state.currentChannelId);
+  const openModal = useUIStore((state) => state.openModal);
 
   return (
     <div style={{
       width: 300, borderRight: '1px solid #ddd', overflowY: 'auto', padding: 10,
     }}
     >
-      <h3>Каналы</h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h3>Каналы</h3>
+        <Button size="xs" onClick={() => openModal('add')}>+</Button>
+      </div>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {channels.map((channel) => (
           <li
             key={channel.id}
-            onClick={() => setCurrentChannelId(channel.id)}
             style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               padding: 10,
               cursor: 'pointer',
               background: currentChannelId === channel.id ? '#e0e0e0' : 'transparent',
@@ -23,7 +30,23 @@ const Channels = ({ channels }) => {
               marginBottom: 5,
             }}
           >
-            {channel.name}
+            <span
+              onClick={() => setCurrentChannelId(channel.id)}
+              style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}
+            >
+              # {channel.name}
+            </span>
+            {channel.removable && (
+              <Menu>
+                <Menu.Target>
+                  <ActionIcon variant="subtle" size="sm">⋮</ActionIcon>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item onClick={() => openModal('rename', channel.id)}>Переименовать</Menu.Item>
+                  <Menu.Item color="red" onClick={() => openModal('remove', channel.id)}>Удалить</Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            )}
           </li>
         ))}
       </ul>
