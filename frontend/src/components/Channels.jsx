@@ -8,6 +8,8 @@ const Channels = ({ channels }) => {
   const currentChannelId = useUI((state) => state.currentChannelId);
   const openModal = useUI((state) => state.openModal);
 
+  const list = Array.isArray(channels) ? channels : [];
+
   return (
     <div style={{
       width: 300, borderRight: '1px solid #ddd', overflowY: 'auto', padding: 10,
@@ -18,7 +20,7 @@ const Channels = ({ channels }) => {
         <Button size="xs" onClick={() => openModal('add')} aria-label="+">+</Button>
       </div>
       <ul style={{ listStyle: 'none', padding: 0 }}>
-        {channels.map((channel) => (
+        {list.map((channel) => (
           <li
             key={channel.id}
             style={{

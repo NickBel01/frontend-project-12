@@ -1,8 +1,24 @@
-import runApp from '../frontend/src/main.jsx';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from '../frontend/src/App.jsx';
 
-export default (socket) => {
-  if (socket) {
-    window.__testSocket = socket;
+let root = null;
+
+export default () => {
+  let container = document.getElementById('root');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'root';
+    document.body.appendChild(container);
   }
-  runApp();
+
+  if (!root) {
+    root = createRoot(container);
+  }
+
+  root.render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
 };
