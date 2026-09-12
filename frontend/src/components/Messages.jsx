@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { fetchMessages, sendMessage } from '../api.js';
-import useAuthStore from '../store/auth.js';
+import { useAuth } from '../store/auth.js';
 import { clean } from '../utils/profanity.js';
 
 const Messages = ({ channelId }) => {
   const { t } = useTranslation();
   const [text, setText] = useState('');
   const [sending, setSending] = useState(false);
-  const username = useAuthStore((state) => state.username) || 'admin';
+  const username = useAuth((state) => state.username) || 'admin';
 
   const { data: allMessages, isLoading } = useQuery({
     queryKey: ['messages'],

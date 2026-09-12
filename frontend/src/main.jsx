@@ -4,10 +4,15 @@ import './index.css';
 import App from './App.jsx';
 import { initSentry } from './sentry.js';
 
-initSentry();
+export const runApp = () => {
+  initSentry();
+  createRoot(document.getElementById('root')).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+};
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+runApp();
+
+export default runApp;

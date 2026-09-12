@@ -6,12 +6,12 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useAuthStore from '../store/auth.js';
+import { useAuth } from '../store/auth.js';
 
 const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const setAuth = useAuth((state) => state.setAuth);
   const [error, setError] = useState(null);
 
   const form = useForm({
@@ -26,7 +26,7 @@ const Login = () => {
       const response = await axios.post('/api/v1/login', values);
       setAuth(response.data.token, response.data.username);
       navigate('/');
-    } catch (err) {
+    } catch {
       setError(t('login.error'));
     }
   };

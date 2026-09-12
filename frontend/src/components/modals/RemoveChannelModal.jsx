@@ -3,14 +3,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
 import { removeChannel } from '../../api.js';
-import useUIStore from '../../store/ui.js';
+import { useUI } from '../../store/ui.js';
 
 const RemoveChannelModal = () => {
   const { t } = useTranslation();
-  const { channelId } = useUIStore((state) => state.modal);
-  const closeModal = useUIStore((state) => state.closeModal);
-  const currentChannelId = useUIStore((state) => state.currentChannelId);
-  const setCurrentChannelId = useUIStore((state) => state.setCurrentChannelId);
+  const { channelId } = useUI((state) => state.modal);
+  const closeModal = useUI((state) => state.closeModal);
+  const currentChannelId = useUI((state) => state.currentChannelId);
+  const setCurrentChannelId = useUI((state) => state.setCurrentChannelId);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({

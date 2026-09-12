@@ -4,13 +4,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
 import { renameChannel } from '../../api.js';
-import useUIStore from '../../store/ui.js';
+import { useUI } from '../../store/ui.js';
 import { clean } from '../../utils/profanity.js';
 
 const RenameChannelModal = () => {
   const { t } = useTranslation();
-  const { channelId } = useUIStore((state) => state.modal);
-  const closeModal = useUIStore((state) => state.closeModal);
+  const { channelId } = useUI((state) => state.modal);
+  const closeModal = useUI((state) => state.closeModal);
   const queryClient = useQueryClient();
 
   const form = useForm({

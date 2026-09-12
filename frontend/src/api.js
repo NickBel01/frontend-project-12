@@ -1,14 +1,21 @@
 import axios from 'axios';
-import useAuthStore from './store/auth.js';
 
 const api = axios.create({
   baseURL: '/api/v1',
 });
 
 api.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token;
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const raw = localStorage.getItem('auth-storage');
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      const token = parsed?.state?.token;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch {
+      // ignore
+    }
   }
   return config;
 });

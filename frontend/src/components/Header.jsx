@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Group, Anchor, Button } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import useAuthStore from '../store/auth.js';
+import { useAuth } from '../store/auth.js';
 
 const Header = () => {
   const { t } = useTranslation();
-  const token = useAuthStore((state) => state.token);
-  const removeAuth = useAuthStore((state) => state.removeAuth);
+  const token = useAuth((state) => state.token);
+  const removeAuth = useAuth((state) => state.removeAuth);
   const navigate = useNavigate();
 
   const handleLogout = () => {

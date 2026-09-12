@@ -6,12 +6,12 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useAuthStore from '../store/auth.js';
+import { useAuth } from '../store/auth.js';
 
 const Signup = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const setAuth = useAuth((state) => state.setAuth);
   const [error, setError] = useState(null);
 
   const form = useForm({

@@ -1,6 +1,8 @@
-import { create } from 'zustand';
+import { createStore } from 'zustand/vanilla';
+import { createContext, useContext } from 'react';
+import { useStore } from 'zustand';
 
-const useUIStore = create((set) => ({
+export const createUIStore = () => createStore((set) => ({
   currentChannelId: null,
   setCurrentChannelId: (id) => set({ currentChannelId: id }),
 
@@ -9,4 +11,9 @@ const useUIStore = create((set) => ({
   closeModal: () => set({ modal: { type: null, channelId: null } }),
 }));
 
-export default useUIStore;
+export const UIContext = createContext(null);
+
+export const useUI = (selector) => {
+  const store = useContext(UIContext);
+  return useStore(store, selector);
+};
