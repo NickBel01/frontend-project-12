@@ -2,6 +2,7 @@ import { Modal, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { notifications } from '@mantine/notifications';
 import { createChannel } from '../../api.js';
 import useUIStore from '../../store/ui.js';
 
@@ -26,6 +27,7 @@ const AddChannelModal = () => {
     onSuccess: (channel) => {
       queryClient.invalidateQueries({ queryKey: ['channels'] });
       setCurrentChannelId(channel.id);
+      notifications.show({ message: t('notifications.channelCreated'), color: 'green' });
       closeModal();
       form.reset();
     },

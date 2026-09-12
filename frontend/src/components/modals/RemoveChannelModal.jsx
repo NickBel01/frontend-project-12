@@ -1,6 +1,7 @@
 import { Modal, Button, Group, Text } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { notifications } from '@mantine/notifications';
 import { removeChannel } from '../../api.js';
 import useUIStore from '../../store/ui.js';
 
@@ -19,6 +20,7 @@ const RemoveChannelModal = () => {
       if (currentChannelId === channelId) {
         setCurrentChannelId(null);
       }
+      notifications.show({ message: t('notifications.channelRemoved'), color: 'green' });
       closeModal();
     },
   });

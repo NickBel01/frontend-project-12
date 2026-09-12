@@ -54,6 +54,13 @@ const resources = {
           match: 'Пароли должны совпадать',
         },
       },
+      notifications: {
+        channelCreated: 'Канал создан',
+        channelRenamed: 'Канал переименован',
+        channelRemoved: 'Канал удалён',
+        networkError: 'Ошибка сети',
+        loadError: 'Ошибка загрузки данных',
+      },
       notFound: {
         title: '404',
         text: 'Страница не найдена',

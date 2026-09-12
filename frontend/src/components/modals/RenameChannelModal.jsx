@@ -2,6 +2,7 @@ import { Modal, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { notifications } from '@mantine/notifications';
 import { renameChannel } from '../../api.js';
 import useUIStore from '../../store/ui.js';
 
@@ -25,6 +26,7 @@ const RenameChannelModal = () => {
     mutationFn: (name) => renameChannel(channelId, name),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['channels'] });
+      notifications.show({ message: t('notifications.channelRenamed'), color: 'green' });
       closeModal();
     },
   });

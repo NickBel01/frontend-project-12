@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { notifications } from '@mantine/notifications';
 import { fetchChannels } from '../api.js';
 import socket from '../socket.js';
 import useUIStore from '../store/ui.js';
@@ -14,10 +15,16 @@ const Chat = () => {
   const setCurrentChannelId = useUIStore((state) => state.setCurrentChannelId);
   const queryClient = useQueryClient();
 
-  const { data: channels, isLoading } = useQuery({
+  const { data: channels, isLoading, isError } = useQuery({
     queryKey: ['channels'],
     queryFn: fetchChannels,
   });
+
+  useEffect(() => {
+    if (isError) {
+      notifications.show({ message: t('notifications.loadError'), color: 'red' });
+    }
+  }, [isError, t]);
 
   useEffect(() => {
     if (channels && channels.length > 0 && !currentChannelId) {
