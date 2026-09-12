@@ -6,7 +6,8 @@ import { initSentry } from './sentry.js';
 
 export const runApp = (element) => {
   initSentry();
-  createRoot(element).render(
+  const container = element || document.getElementById('root');
+  createRoot(container).render(
     <StrictMode>
       <App />
     </StrictMode>,
