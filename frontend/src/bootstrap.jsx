@@ -1,3 +1,3 @@
 import runApp from './main.jsx';
 
-runApp();
+runApp(document.getElementById('root'));
