@@ -5,8 +5,12 @@ import App from './App.jsx';
 import { initSentry } from './sentry.js';
 
 export const runApp = (element) => {
+  console.log('runApp arg:', element, 'typeof:', typeof element, 'isElement:', element instanceof Element);
   initSentry();
+
   const container = element || document.getElementById('root');
+  console.log('container:', container);
+
   createRoot(container).render(
     <StrictMode>
       <App />
