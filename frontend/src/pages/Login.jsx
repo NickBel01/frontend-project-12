@@ -2,7 +2,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
 import {
-  TextInput, PasswordInput, Button, Container, Title, Box, Alert, Anchor,
+  TextInput, PasswordInput, Button, Container, Title, Box, Alert,
 } from '@mantine/core';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -50,9 +50,9 @@ const Login = () => {
         <Button type="submit" fullWidth mt="md">
           {t('login.submit')}
         </Button>
-        <Anchor component={Link} to="/signup" mt="md" style={{ display: 'block', textAlign: 'center' }}>
-          {t('login.signup')}
-        </Anchor>
+        <div style={{ textAlign: 'center', marginTop: 16 }}>
+          <Link to="/signup">{t('login.signup')}</Link>
+        </div>
       </Box>
     </Container>
   );
