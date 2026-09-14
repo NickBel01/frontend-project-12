@@ -5,6 +5,8 @@ import App from './App.jsx';
 let root = null;
 
 export default () => {
+  localStorage.clear();
+
   let container = document.getElementById('root');
   if (!container) {
     container = document.createElement('div');
