@@ -2,7 +2,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
 import {
-  TextInput, PasswordInput, Button, Container, Title, Box, Alert, Anchor,
+  TextInput, PasswordInput, Button, Container, Title, Box, Alert,
 } from '@mantine/core';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -61,17 +61,20 @@ const Signup = () => {
       <Box component="form" onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           label={t('signup.username')}
+          aria-label={t('signup.username')}
           placeholder="username"
           {...form.getInputProps('username')}
         />
         <PasswordInput
           label={t('signup.password')}
+          aria-label={t('signup.password')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('password')}
         />
         <PasswordInput
           label={t('signup.confirmPassword')}
+          aria-label={t('signup.confirmPassword')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('confirmPassword')}
@@ -80,11 +83,9 @@ const Signup = () => {
           {t('signup.submit')}
         </Button>
       </Box>
-      <Anchor component={Link} to="/login" mt="md" style={{ display: 'block', textAlign: 'center' }}>
-        {t('signup.hasAccount')}
-        {' '}
-        {t('signup.login')}
-      </Anchor>
+      <div style={{ textAlign: 'center', marginTop: 16 }}>
+        <Link to="/login">{t('signup.login')}</Link>
+      </div>
     </Container>
   );
 };

@@ -38,11 +38,13 @@ const Login = () => {
       <Box component="form" onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           label={t('login.username')}
+          aria-label={t('login.username')}
           placeholder="username"
           {...form.getInputProps('username')}
         />
         <PasswordInput
           label={t('login.password')}
+          aria-label={t('login.password')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('password')}
