@@ -4,7 +4,7 @@ import App from './App.jsx';
 
 let root = null;
 
-export default () => {
+export default function init() {
   localStorage.clear();
 
   let container = document.getElementById('root');
@@ -19,4 +19,4 @@ export default () => {
   }
 
   root.render(createElement(StrictMode, null, createElement(App)));
-};
+}
