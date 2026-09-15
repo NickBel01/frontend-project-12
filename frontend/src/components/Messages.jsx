@@ -35,13 +35,12 @@ const Messages = ({ channelId }) => {
     }
   };
 
-  if (isLoading) return <div>{t('chat.loadingMessages')}</div>;
-
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <div style={{ flex: 1, padding: 20, overflowY: 'auto' }}>
         <h3>{t('chat.messages')}</h3>
-        {messages.map((message) => (
+        {isLoading && <div>{t('chat.loadingMessages')}</div>}
+        {!isLoading && messages.map((message) => (
           <div key={message.id} style={{ marginBottom: 10, wordBreak: 'break-word' }}>
             <strong>{message.username}:</strong>
             {' '}
