@@ -36,7 +36,8 @@ const RenameChannelModal = () => {
     <Modal opened onClose={closeModal} title={t('modals.renameChannel')}>
       <form onSubmit={form.onSubmit((values) => mutation.mutate(clean(values.name)))}>
         <TextInput
-          label={t('modals.newName')}
+          label={t('modals.channelName')}
+          aria-label={t('modals.channelName')}
           data-autofocus
           {...form.getInputProps('name')}
         />
