@@ -18,7 +18,9 @@ const RemoveChannelModal = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['channels'] });
       if (currentChannelId === channelId) {
-        setCurrentChannelId(null);
+        const channels = queryClient.getQueryData(['channels']) || [];
+        const remaining = channels.filter((c) => c.id !== channelId);
+        setCurrentChannelId(remaining[0]?.id ?? null);
       }
       notifications.show({ message: t('notifications.channelRemoved'), color: 'green' });
       closeModal();
