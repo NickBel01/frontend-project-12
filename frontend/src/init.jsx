@@ -14,9 +14,12 @@ export default function init() {
     document.body.appendChild(container);
   }
 
-  if (!root) {
-    root = createRoot(container);
+  if (root) {
+    root.unmount();
+    root = null;
   }
 
+  container.innerHTML = '';
+  root = createRoot(container);
   root.render(createElement(StrictMode, null, createElement(App)));
 }
