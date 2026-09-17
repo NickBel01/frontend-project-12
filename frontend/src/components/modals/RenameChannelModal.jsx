@@ -3,7 +3,7 @@ import { useForm } from '@mantine/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
-import { renameChannel } from '../../api.js';
+import { renameChannel } from '../../api/channels.js';
 import { useUI } from '../../store/ui.js';
 import { clean } from '../../utils/profanity.js';
 

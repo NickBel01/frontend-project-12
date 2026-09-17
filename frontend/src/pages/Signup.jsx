@@ -1,11 +1,11 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
-import axios from 'axios';
 import {
   TextInput, PasswordInput, Button, Container, Title, Box, Alert,
 } from '@mantine/core';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { signup } from '../api/auth.js';
 import { useAuth } from '../store/auth.js';
 
 const Signup = () => {
@@ -39,11 +39,11 @@ const Signup = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post('/api/v1/signup', {
+      const response = await signup({
         username: values.username,
         password: values.password,
       });
-      setAuth(response.data.token, response.data.username);
+      setAuth(response.token, response.username);
       navigate('/');
     } catch (err) {
       if (err.response?.status === 409) {
@@ -61,20 +61,17 @@ const Signup = () => {
       <Box component="form" onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           label={t('signup.username')}
-          aria-label={t('signup.username')}
           placeholder="username"
           {...form.getInputProps('username')}
         />
         <PasswordInput
           label={t('signup.password')}
-          aria-label={t('signup.password')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('password')}
         />
         <PasswordInput
           label={t('signup.confirmPassword')}
-          aria-label={t('signup.confirmPassword')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('confirmPassword')}

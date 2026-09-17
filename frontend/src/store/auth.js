@@ -1,9 +1,8 @@
 import { createStore } from 'zustand/vanilla';
 import { persist } from 'zustand/middleware';
-import { createContext, useContext } from 'react';
 import { useStore } from 'zustand';
 
-export const createAuthStore = () => createStore(
+const authStore = createStore(
   persist(
     (set) => ({
       token: null,
@@ -17,9 +16,6 @@ export const createAuthStore = () => createStore(
   ),
 );
 
-export const AuthContext = createContext(null);
+export const useAuth = (selector) => useStore(authStore, selector);
 
-export const useAuth = (selector) => {
-  const store = useContext(AuthContext);
-  return useStore(store, selector);
-};
+export default authStore;

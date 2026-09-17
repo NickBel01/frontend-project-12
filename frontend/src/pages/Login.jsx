@@ -1,11 +1,11 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
-import axios from 'axios';
 import {
   TextInput, PasswordInput, Button, Container, Title, Box, Alert,
 } from '@mantine/core';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { login } from '../api/auth.js';
 import { useAuth } from '../store/auth.js';
 
 const Login = () => {
@@ -23,8 +23,8 @@ const Login = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post('/api/v1/login', values);
-      setAuth(response.data.token, response.data.username);
+      const response = await login(values);
+      setAuth(response.token, response.username);
       navigate('/');
     } catch {
       setError(t('login.error'));
@@ -38,13 +38,11 @@ const Login = () => {
       <Box component="form" onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           label={t('login.username')}
-          aria-label={t('login.username')}
           placeholder="username"
           {...form.getInputProps('username')}
         />
         <PasswordInput
           label={t('login.password')}
-          aria-label={t('login.password')}
           placeholder="password"
           mt="sm"
           {...form.getInputProps('password')}

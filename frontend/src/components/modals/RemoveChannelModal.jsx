@@ -2,7 +2,7 @@ import { Modal, Button, Group, Text } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
-import { removeChannel } from '../../api.js';
+import { removeChannel } from '../../api/channels.js';
 import { useUI } from '../../store/ui.js';
 
 const RemoveChannelModal = () => {

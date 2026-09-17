@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
-import { fetchMessages, sendMessage } from '../api.js';
+import { fetchMessages, sendMessage } from '../api/messages.js';
 import { useAuth } from '../store/auth.js';
 import { clean } from '../utils/profanity.js';
 
