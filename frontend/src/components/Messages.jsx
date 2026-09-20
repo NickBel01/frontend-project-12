@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { notifications } from '@mantine/notifications';
+import {
+  Flex, Text, Title, Loader, Center, TextInput, ScrollArea, Box, Divider,
+} from '@mantine/core';
 import { fetchMessages, sendMessage } from '../api/messages.js';
 import { useAuth } from '../store/auth.js';
 import { clean } from '../utils/profanity.js';
@@ -9,58 +12,59 @@ import { clean } from '../utils/profanity.js';
 const Messages = ({ channelId }) => {
   const { t } = useTranslation();
   const [text, setText] = useState('');
-  const [sending, setSending] = useState(false);
   const username = useAuth((state) => state.username) || 'admin';
 
-  const { data: allMessages, isLoading } = useQuery({
+  const { data: allMessages = [], isLoading } = useQuery({
     queryKey: ['messages'],
     queryFn: fetchMessages,
   });
 
-  const messages = Array.isArray(allMessages)
-    ? allMessages.filter((m) => String(m.channelId) === String(channelId))
-    : [];
+  const messages = allMessages.filter(
+    (m) => String(m.channelId) === String(channelId),
+  );
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!text.trim() || sending) return;
-
-    setSending(true);
-    try {
-      await sendMessage(clean(text), channelId, username);
-      setText('');
-    } catch {
+  const mutation = useMutation({
+    mutationFn: (body) => sendMessage(clean(body), channelId, username),
+    onSuccess: () => setText(''),
+    onError: () => {
       notifications.show({ message: t('notifications.networkError'), color: 'red' });
-    } finally {
-      setSending(false);
-    }
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!text.trim() || mutation.isPending) return;
+    mutation.mutate(text);
   };
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <div style={{ flex: 1, padding: 20, overflowY: 'auto' }}>
-        <h3>{t('chat.messages')}</h3>
-        {isLoading && <div>{t('chat.loadingMessages')}</div>}
+    <Flex direction="column" h="100vh" flex={1}>
+      <ScrollArea flex={1} p="lg">
+        <Title order={3} mb="md">{t('chat.messages')}</Title>
+        {isLoading && (
+          <Center>
+            <Loader />
+          </Center>
+        )}
         {!isLoading && messages.map((message) => (
-          <div key={message.id} style={{ marginBottom: 10, wordBreak: 'break-word' }}>
-            <strong>{message.username}:</strong>
+          <Box key={message.id} mb="sm">
+            <Text component="span" fw={700}>{message.username}:</Text>
             {' '}
-            {message.body}
-          </div>
+            <Text component="span">{message.body}</Text>
+          </Box>
         ))}
-      </div>
-      <form onSubmit={handleSubmit} style={{ padding: 20, borderTop: '1px solid #ddd' }}>
-        <input
-          type="text"
+      </ScrollArea>
+      <Divider />
+      <Box component="form" onSubmit={handleSubmit} p="lg">
+        <TextInput
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={t('chat.messagePlaceholder')}
-          aria-label="Новое сообщение"
-          disabled={sending}
-          style={{ width: '100%', padding: 10, fontSize: 16 }}
+          aria-label={t('chat.messagePlaceholder')}
+          disabled={mutation.isPending}
         />
-      </form>
-    </div>
+      </Box>
+    </Flex>
   );
 };
 

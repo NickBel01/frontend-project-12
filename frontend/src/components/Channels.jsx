@@ -1,70 +1,65 @@
-import { Menu, Button, ActionIcon } from '@mantine/core';
+import {
+  Menu, Button, ActionIcon, Box, Flex, Text, ScrollArea, NavLink,
+} from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { useUI } from '../store/ui.js';
 
-const Channels = ({ channels }) => {
+const Channels = ({ channels = [] }) => {
   const { t } = useTranslation();
   const setCurrentChannelId = useUI((state) => state.setCurrentChannelId);
   const currentChannelId = useUI((state) => state.currentChannelId);
   const openModal = useUI((state) => state.openModal);
 
-  const list = Array.isArray(channels) ? channels : [];
-
   return (
-    <div style={{
-      width: 300, borderRight: '1px solid #ddd', overflowY: 'auto', padding: 10,
-    }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3>{t('chat.channels')}</h3>
+    <Box w={300} p="xs">
+      <Flex justify="space-between" align="center" mb="sm">
+        <Text fw={600}>{t('chat.channels')}</Text>
         <Button size="xs" onClick={() => openModal('add')} aria-label="+">+</Button>
-      </div>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
-        {list.map((channel) => (
-          <li
+      </Flex>
+      <ScrollArea>
+        {channels.map((channel) => (
+          <NavLink
             key={channel.id}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 10,
-              background: currentChannelId === channel.id ? '#e0e0e0' : 'transparent',
-              borderRadius: 5,
-              marginBottom: 5,
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => setCurrentChannelId(channel.id)}
-              style={{
-                flex: 1,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                textAlign: 'left',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-                font: 'inherit',
-              }}
-            >
-              # {channel.name}
-            </button>
-            {channel.removable && (
+            active={currentChannelId === channel.id}
+            onClick={() => setCurrentChannelId(channel.id)}
+            label={`# ${channel.name}`}
+            rightSection={channel.removable && (
               <Menu>
                 <Menu.Target>
-                  <ActionIcon variant="subtle" size="sm" aria-label={t('chat.channelControl')}>⋮</ActionIcon>
+                  <ActionIcon
+                    variant="subtle"
+                    size="sm"
+                    aria-label={t('chat.channelControl')}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    ⋮
+                  </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
-                  <Menu.Item onClick={() => openModal('rename', channel.id)}>{t('modals.rename')}</Menu.Item>
-                  <Menu.Item color="red" onClick={() => openModal('remove', channel.id)}>{t('modals.remove')}</Menu.Item>
+                  <Menu.Item
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openModal('rename', channel.id);
+                    }}
+                  >
+                    {t('modals.rename')}
+                  </Menu.Item>
+                  <Menu.Item
+                    color="red"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openModal('remove', channel.id);
+                    }}
+                  >
+                    {t('modals.remove')}
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             )}
-          </li>
+          />
         ))}
-      </ul>
-    </div>
+      </ScrollArea>
+    </Box>
   );
 };
 

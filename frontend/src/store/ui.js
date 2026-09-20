@@ -3,10 +3,7 @@ import { useStore } from 'zustand';
 
 const uiStore = createStore((set) => ({
   currentChannelId: null,
-  setCurrentChannelId: (id) => set({
-    currentChannelId: id,
-    modal: { type: null, channelId: null },
-  }),
+  setCurrentChannelId: (id) => set({ currentChannelId: id }),
 
   modal: { type: null, channelId: null },
   openModal: (type, channelId = null) => set({ modal: { type, channelId } }),

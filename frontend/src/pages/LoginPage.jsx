@@ -1,18 +1,17 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
+import { useMutation } from '@tanstack/react-query';
 import {
-  TextInput, PasswordInput, Button, Container, Title, Box, Alert,
+  TextInput, PasswordInput, Button, Container, Title, Box, Alert, Center,
 } from '@mantine/core';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { login } from '../api/auth.js';
 import { useAuth } from '../store/auth.js';
 
-const Login = () => {
+const LoginPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const setAuth = useAuth((state) => state.setAuth);
-  const [error, setError] = useState(null);
 
   const form = useForm({
     initialValues: {
@@ -21,41 +20,41 @@ const Login = () => {
     },
   });
 
-  const handleSubmit = async (values) => {
-    try {
-      const response = await login(values);
-      setAuth(response.token, response.username);
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      setAuth(data.token, data.username);
       navigate('/');
-    } catch {
-      setError(t('login.error'));
-    }
-  };
+    },
+  });
 
   return (
-    <Container size="xs" mt={50} style={{ minHeight: '400px' }}>
-      <Title order={2} align="center" mb="md" c="dark">{t('login.title')}</Title>
-      {error && <Alert color="red" mb="md">{error}</Alert>}
-      <Box component="form" onSubmit={form.onSubmit(handleSubmit)}>
+    <Container size="xs" mt={50} mih={400}>
+      <Title order={2} ta="center" mb="md" c="dark">{t('login.title')}</Title>
+      {mutation.isError && (
+        <Alert color="red" mb="md">{t('login.error')}</Alert>
+      )}
+      <Box component="form" onSubmit={form.onSubmit((values) => mutation.mutate(values))}>
         <TextInput
           label={t('login.username')}
-          placeholder="username"
+          placeholder={t('login.usernamePlaceholder')}
           {...form.getInputProps('username')}
         />
         <PasswordInput
           label={t('login.password')}
-          placeholder="password"
+          placeholder={t('login.passwordPlaceholder')}
           mt="sm"
           {...form.getInputProps('password')}
         />
-        <Button type="submit" fullWidth mt="md">
+        <Button type="submit" fullWidth mt="md" loading={mutation.isPending}>
           {t('login.submit')}
         </Button>
-        <div style={{ textAlign: 'center', marginTop: 16 }}>
+        <Center mt="md">
           <Link to="/signup">{t('login.signup')}</Link>
-        </div>
+        </Center>
       </Box>
     </Container>
   );
 };
 
-export default Login;
+export default LoginPage;

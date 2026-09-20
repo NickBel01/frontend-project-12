@@ -6,6 +6,7 @@ import { notifications } from '@mantine/notifications';
 import { renameChannel } from '../../api/channels.js';
 import { useUI } from '../../store/ui.js';
 import { clean } from '../../utils/profanity.js';
+import { validateChannelName } from '../../utils/validation.js';
 
 const RenameChannelModal = () => {
   const { t } = useTranslation();
@@ -16,10 +17,7 @@ const RenameChannelModal = () => {
   const form = useForm({
     initialValues: { name: '' },
     validate: {
-      name: (value) => {
-        if (value.length < 3 || value.length > 20) return t('modals.validation.length');
-        return null;
-      },
+      name: (value) => validateChannelName(value, t),
     },
   });
 
@@ -37,6 +35,7 @@ const RenameChannelModal = () => {
       <form onSubmit={form.onSubmit((values) => mutation.mutate(clean(values.name)))}>
         <TextInput
           label={t('modals.channelName')}
+          placeholder={t('modals.channelNamePlaceholder')}
           aria-label={t('modals.channelName')}
           data-autofocus
           {...form.getInputProps('name')}

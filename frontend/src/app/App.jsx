@@ -8,10 +8,10 @@ import { I18nextProvider } from 'react-i18next';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import i18n from '../i18n.js';
-import Login from '../pages/Login.jsx';
-import Signup from '../pages/Signup.jsx';
-import NotFound from '../pages/NotFound.jsx';
-import Chat from '../pages/Chat.jsx';
+import LoginPage from '../pages/LoginPage.jsx';
+import SignupPage from '../pages/SignupPage.jsx';
+import NotFoundPage from '../pages/NotFoundPage.jsx';
+import ChatPage from '../pages/ChatPage.jsx';
 import Header from '../components/Header.jsx';
 import { useAuth } from '../store/auth.js';
 
@@ -35,13 +35,13 @@ const App = () => (
               path="/"
               element={(
                 <ProtectedRoute>
-                  <Chat />
+                  <ChatPage />
                 </ProtectedRoute>
               )}
             />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </I18nextProvider>
