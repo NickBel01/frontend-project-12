@@ -5,9 +5,8 @@ import { notifications } from '@mantine/notifications';
 import { removeChannel } from '../../api/channels.js';
 import { useUI } from '../../store/ui.js';
 
-const RemoveChannelModal = () => {
+const RemoveChannelModal = ({ opened, channelId }) => {
   const { t } = useTranslation();
-  const { channelId } = useUI((state) => state.modal);
   const closeModal = useUI((state) => state.closeModal);
   const currentChannelId = useUI((state) => state.currentChannelId);
   const setCurrentChannelId = useUI((state) => state.setCurrentChannelId);
@@ -29,11 +28,10 @@ const RemoveChannelModal = () => {
 
   return (
     <Modal
-      opened
+      opened={opened}
       onClose={closeModal}
       title={t('modals.removeChannel')}
       transitionProps={{ duration: 0 }}
-      keepMounted={false}
     >
       <Text>{t('modals.removeQuestion')}</Text>
       <Group mt="md">

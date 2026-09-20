@@ -8,7 +8,7 @@ import { useUI } from '../../store/ui.js';
 import { clean } from '../../utils/profanity.js';
 import { validateChannelName } from '../../utils/validation.js';
 
-const AddChannelModal = () => {
+const AddChannelModal = ({ opened }) => {
   const { t } = useTranslation();
   const closeModal = useUI((state) => state.closeModal);
   const queryClient = useQueryClient();
@@ -32,11 +32,10 @@ const AddChannelModal = () => {
 
   return (
     <Modal
-      opened
+      opened={opened}
       onClose={closeModal}
       title={t('modals.addChannel')}
       transitionProps={{ duration: 0 }}
-      keepMounted={false}
     >
       <form onSubmit={form.onSubmit((values) => mutation.mutate(clean(values.name)))}>
         <TextInput

@@ -4,12 +4,15 @@ import RenameChannelModal from './RenameChannelModal.jsx';
 import RemoveChannelModal from './RemoveChannelModal.jsx';
 
 const Modals = () => {
-  const { type } = useUI((state) => state.modal);
+  const { type, channelId } = useUI((state) => state.modal);
 
-  if (type === 'add') return <AddChannelModal />;
-  if (type === 'rename') return <RenameChannelModal />;
-  if (type === 'remove') return <RemoveChannelModal />;
-  return null;
+  return (
+    <>
+      <AddChannelModal opened={type === 'add'} />
+      <RenameChannelModal opened={type === 'rename'} channelId={channelId} />
+      <RemoveChannelModal opened={type === 'remove'} channelId={channelId} />
+    </>
+  );
 };
 
 export default Modals;
