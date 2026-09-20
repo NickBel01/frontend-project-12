@@ -31,7 +31,13 @@ const RenameChannelModal = () => {
   });
 
   return (
-    <Modal opened onClose={closeModal} title={t('modals.renameChannel')}>
+    <Modal
+      opened
+      onClose={closeModal}
+      title={t('modals.renameChannel')}
+      transitionProps={{ duration: 0 }}
+      keepMounted={false}
+    >
       <form onSubmit={form.onSubmit((values) => mutation.mutate(clean(values.name)))}>
         <TextInput
           label={t('modals.channelName')}

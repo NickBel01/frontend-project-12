@@ -7,7 +7,9 @@ const useSocket = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    socket.connect();
+    if (!socket.connected) {
+      socket.connect();
+    }
 
     const handleNewMessage = (message) => {
       queryClient.setQueryData(['messages'], (old) => (

@@ -28,7 +28,13 @@ const RemoveChannelModal = () => {
   });
 
   return (
-    <Modal opened onClose={closeModal} title={t('modals.removeChannel')}>
+    <Modal
+      opened
+      onClose={closeModal}
+      title={t('modals.removeChannel')}
+      transitionProps={{ duration: 0 }}
+      keepMounted={false}
+    >
       <Text>{t('modals.removeQuestion')}</Text>
       <Group mt="md">
         <Button color="red" onClick={() => mutation.mutate()} loading={mutation.isPending}>
