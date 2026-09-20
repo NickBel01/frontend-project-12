@@ -9,34 +9,38 @@ const useSocket = () => {
   useEffect(() => {
     socket.connect();
 
-    socket.on('newMessage', (message) => {
+    const handleNewMessage = (message) => {
       queryClient.setQueryData(['messages'], (old) => (
         old ? [...old, message] : [message]
       ));
-    });
+    };
 
-    socket.on('newChannel', () => {
+    const handleNewChannel = () => {
       queryClient.invalidateQueries({ queryKey: ['channels'] });
-    });
+    };
 
-    socket.on('removeChannel', (payload) => {
+    const handleRemoveChannel = (payload) => {
       queryClient.invalidateQueries({ queryKey: ['channels'] });
       const { currentChannelId, setCurrentChannelId } = uiStore.getState();
       if (currentChannelId === payload.id) {
         setCurrentChannelId(null);
       }
-    });
+    };
 
-    socket.on('renameChannel', () => {
+    const handleRenameChannel = () => {
       queryClient.invalidateQueries({ queryKey: ['channels'] });
-    });
+    };
+
+    socket.on('newMessage', handleNewMessage);
+    socket.on('newChannel', handleNewChannel);
+    socket.on('removeChannel', handleRemoveChannel);
+    socket.on('renameChannel', handleRenameChannel);
 
     return () => {
-      socket.off('newMessage');
-      socket.off('newChannel');
-      socket.off('removeChannel');
-      socket.off('renameChannel');
-      socket.disconnect();
+      socket.off('newMessage', handleNewMessage);
+      socket.off('newChannel', handleNewChannel);
+      socket.off('removeChannel', handleRemoveChannel);
+      socket.off('renameChannel', handleRenameChannel);
     };
   }, [queryClient]);
 };
