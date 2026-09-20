@@ -6,7 +6,7 @@ import {
   Flex, Loader, Center, Text, Divider,
 } from '@mantine/core';
 import { fetchChannels } from '../api/channels.js';
-import { useUI } from '../store/ui.js';
+import uiStore, { useUI } from '../store/ui.js';
 import useSocket from '../hooks/useSocket.js';
 import Channels from '../components/Channels.jsx';
 import Messages from '../components/Messages.jsx';
@@ -34,6 +34,10 @@ const ChatPage = () => {
       setCurrentChannelId(channels[0].id);
     }
   }, [channels, currentChannelId, setCurrentChannelId]);
+
+  useEffect(() => () => {
+    uiStore.setState({ currentChannelId: null, modal: { type: null, channelId: null } });
+  }, []);
 
   if (isLoading) {
     return (
