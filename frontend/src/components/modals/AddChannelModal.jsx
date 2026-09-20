@@ -37,7 +37,6 @@ const AddChannelModal = () => {
       title={t('modals.addChannel')}
       transitionProps={{ duration: 0 }}
       keepMounted={false}
-      withinPortal={false}
     >
       <form onSubmit={form.onSubmit((values) => mutation.mutate(clean(values.name)))}>
         <TextInput
