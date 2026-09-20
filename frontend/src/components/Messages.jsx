@@ -60,7 +60,7 @@ const Messages = ({ channelId }) => {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={t('chat.messagePlaceholder')}
-          aria-label={t('chat.messagePlaceholder')}
+          aria-label="Новое сообщение"
           disabled={mutation.isPending}
         />
       </Box>

@@ -1,5 +1,5 @@
 import {
-  Menu, Button, ActionIcon, Box, Flex, Text, ScrollArea, NavLink,
+  Menu, Button, ActionIcon, Box, Flex, Text, ScrollArea, UnstyledButton,
 } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { useUI } from '../store/ui.js';
@@ -18,12 +18,22 @@ const Channels = ({ channels = [] }) => {
       </Flex>
       <ScrollArea>
         {channels.map((channel) => (
-          <NavLink
+          <Flex
             key={channel.id}
-            active={currentChannelId === channel.id}
-            onClick={() => setCurrentChannelId(channel.id)}
-            label={`# ${channel.name}`}
-            rightSection={channel.removable && (
+            align="center"
+            gap="xs"
+            p="xs"
+            mb={4}
+            bdrs={4}
+            bg={currentChannelId === channel.id ? 'gray.2' : undefined}
+          >
+            <UnstyledButton
+              onClick={() => setCurrentChannelId(channel.id)}
+              w="100%"
+            >
+              <Text truncate># {channel.name}</Text>
+            </UnstyledButton>
+            {channel.removable && (
               <Menu>
                 <Menu.Target>
                   <ActionIcon
@@ -56,7 +66,7 @@ const Channels = ({ channels = [] }) => {
                 </Menu.Dropdown>
               </Menu>
             )}
-          />
+          </Flex>
         ))}
       </ScrollArea>
     </Box>
