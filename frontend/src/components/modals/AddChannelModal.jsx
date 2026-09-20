@@ -11,7 +11,6 @@ import { validateChannelName } from '../../utils/validation.js';
 const AddChannelModal = () => {
   const { t } = useTranslation();
   const closeModal = useUI((state) => state.closeModal);
-  const setCurrentChannelId = useUI((state) => state.setCurrentChannelId);
   const queryClient = useQueryClient();
 
   const form = useForm({
@@ -23,9 +22,8 @@ const AddChannelModal = () => {
 
   const mutation = useMutation({
     mutationFn: (name) => createChannel(name),
-    onSuccess: (channel) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['channels'] });
-      setCurrentChannelId(channel.id);
       notifications.show({ message: t('notifications.channelCreated'), color: 'green' });
       closeModal();
       form.reset();
