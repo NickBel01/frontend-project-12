@@ -34,6 +34,7 @@ const RemoveChannelModal = () => {
       title={t('modals.removeChannel')}
       transitionProps={{ duration: 0 }}
       keepMounted={false}
+      withinPortal={false}
     >
       <Text>{t('modals.removeQuestion')}</Text>
       <Group mt="md">
