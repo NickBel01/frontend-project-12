@@ -4,7 +4,8 @@ import RenameChannelModal from './RenameChannelModal.jsx';
 import RemoveChannelModal from './RemoveChannelModal.jsx';
 
 const Modals = () => {
-  const { type, channelId } = useUI((state) => state.modal);
+  const type = useUI((state) => state.modal.type);
+  const channelId = useUI((state) => state.modal.channelId);
 
   return (
     <>
